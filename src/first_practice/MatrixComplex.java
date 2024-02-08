@@ -1,20 +1,20 @@
 package first_practice;
 
-public class MatrixComplexDigits {
+public class MatrixComplex {
     private int size_rows=0;
     private int size_columns=0;
-    private ComplexDigit[][] matrix;
+    private ComplexNumber[][] matrix;
 
-    public MatrixComplexDigits(int rows, int columns) {
+    public MatrixComplex(int rows, int columns) {
         if (rows < 1 || columns < 1) {
             throw new IllegalArgumentException();
         }
-        this.matrix = new ComplexDigit[rows][columns];
+        this.matrix = new ComplexNumber[rows][columns];
         this.size_rows = rows;
         this.size_columns = columns;
         for (int i = 0; i < rows; ++i) {
             for (int j = 0; j < columns; ++j) {
-                this.matrix[i][j] = new ComplexDigit();
+                this.matrix[i][j] = new ComplexNumber();
             }
         }
     }
@@ -27,28 +27,28 @@ public class MatrixComplexDigits {
         return this.size_columns;
     }
 
-    public void set_value(int ind_i, int ind_j, ComplexDigit value){
+    public void set_value(int ind_i, int ind_j, ComplexNumber value){
         if (ind_i<0 || ind_i >= this.size_rows || ind_j < 0 || ind_j >= this.size_columns){
             throw new IllegalArgumentException();
         }
-        this.matrix[ind_i][ind_j] = new ComplexDigit(value);
+        this.matrix[ind_i][ind_j] = new ComplexNumber(value);
     }
 
-    public MatrixComplexDigits transpose(){
-        MatrixComplexDigits t = new MatrixComplexDigits(this.size_columns, this.size_rows);
+    public MatrixComplex transpose(){
+        MatrixComplex t = new MatrixComplex(this.size_columns, this.size_rows);
         for (int i = 0; i < this.size_rows; ++i) {
             for (int j = 0; j < this.size_columns; ++j) {
-                t.matrix[j][i] = new ComplexDigit(this.matrix[i][j]);
+                t.matrix[j][i] = new ComplexNumber(this.matrix[i][j]);
             }
         }
         return t;
     }
 
-    public MatrixComplexDigits plus(MatrixComplexDigits other){
+    public MatrixComplex plus(MatrixComplex other){
         if (this.size_columns != other.size_columns && this.size_rows != other.size_rows){
             throw new ArithmeticException();
         }
-        MatrixComplexDigits newM = new MatrixComplexDigits(this.size_rows, this.size_columns);
+        MatrixComplex newM = new MatrixComplex(this.size_rows, this.size_columns);
         for (int i=0;i<this.size_rows;++i){
             for (int j=0;j<this.size_columns;++j){
                 newM.set_value(i, j, this.matrix[i][j].plus(other.matrix[i][j]));
@@ -57,11 +57,11 @@ public class MatrixComplexDigits {
         return newM;
     }
 
-    public MatrixComplexDigits minus(MatrixComplexDigits other){
+    public MatrixComplex minus(MatrixComplex other){
         if (this.size_columns != other.size_columns && this.size_rows != other.size_rows){
             throw new ArithmeticException();
         }
-        MatrixComplexDigits newM = new MatrixComplexDigits(this.size_rows, this.size_columns);
+        MatrixComplex newM = new MatrixComplex(this.size_rows, this.size_columns);
         for (int i=0;i<this.size_rows;++i){
             for (int j=0;j<this.size_columns;++j){
                 newM.set_value(i, j, this.matrix[i][j].minus(other.matrix[i][j]));
@@ -70,11 +70,11 @@ public class MatrixComplexDigits {
         return newM;
     }
 
-    public MatrixComplexDigits multiply(MatrixComplexDigits other){
+    public MatrixComplex multiply(MatrixComplex other){
         if (this.size_columns != other.size_rows){
             throw new ArithmeticException();
         }
-        MatrixComplexDigits newM = new MatrixComplexDigits(this.size_rows, other.size_columns);
+        MatrixComplex newM = new MatrixComplex(this.size_rows, other.size_columns);
         for (int i=0;i<this.size_rows;++i){
             for (int j=0;j<other.size_columns;++j){
                 for (int k=0;k<this.size_columns;++k){
@@ -85,8 +85,8 @@ public class MatrixComplexDigits {
         return newM;
     }
 
-    public MatrixComplexDigits multiply(double n){
-        MatrixComplexDigits newM = new MatrixComplexDigits(this.size_rows, this.size_columns);
+    public MatrixComplex multiply(double n){
+        MatrixComplex newM = new MatrixComplex(this.size_rows, this.size_columns);
         for (int i=0;i<this.size_rows;++i){
             for (int j=0;j<this.size_columns;++j){
                 newM.set_value(i, j, this.matrix[i][j].multiply(n));
@@ -94,8 +94,8 @@ public class MatrixComplexDigits {
         }
         return newM;
     }
-    public MatrixComplexDigits get_minor(int index_row, int index_column){
-        MatrixComplexDigits minor = new MatrixComplexDigits(this.size_rows-1,this.size_columns-1);
+    public MatrixComplex get_minor(int index_row, int index_column){
+        MatrixComplex minor = new MatrixComplex(this.size_rows-1,this.size_columns-1);
         int ind_r = 0;
         int ind_c = 0;
         for (int i=0;i<this.size_rows;++i){
@@ -111,16 +111,16 @@ public class MatrixComplexDigits {
         }
         return minor;
     }
-    public ComplexDigit determinant(){
+    public ComplexNumber determinant(){
         if (this.size_rows != this.size_columns){
             throw new ArithmeticException();
         }
         if (this.size_rows==1){
             return this.matrix[0][0];
         }
-        ComplexDigit result = new ComplexDigit();
+        ComplexNumber result = new ComplexNumber();
         for (int i=0;i<this.size_columns;++i){
-            MatrixComplexDigits minor = this.get_minor(0, i);
+            MatrixComplex minor = this.get_minor(0, i);
             result = result.plus(this.matrix[0][i].multiply(minor.determinant()).multiply(Math.pow(-1, (double) i)));
         }
         return result;
