@@ -28,16 +28,9 @@ public class CreatingRequests implements Runnable{
                 from_floor = random.nextInt(this.manager.getNum_floors()) + 1;
                 to_floor = random.nextInt(this.manager.getNum_floors()) + 1;
             }
-            if (i==0){
-                from_floor = 10;
-                to_floor = 9;
-            }
-            if (i == 1) {
-                from_floor = 7;
-                to_floor = 9;
-            }
+
             Request new_request = new Request(from_floor, to_floor);
-            System.out.print(from_floor + " " + to_floor + '\n');
+            System.out.print("New request " + new_request+'\n');
 
             this.manager.add_request(new_request);
             int sleep_time = random.nextInt(this.time_sleep) + 1000;
